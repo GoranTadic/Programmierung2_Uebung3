@@ -123,6 +123,9 @@ public class NewsApi {
         } catch (MalformedURLException e) {
             // TODO improve ErrorHandling
             e.printStackTrace();
+            System.out.println("Error " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error " + e.getMessage());
         }
         HttpURLConnection con;
         StringBuilder response = new StringBuilder();
@@ -137,16 +140,24 @@ public class NewsApi {
         } catch (IOException e) {
             // TODO improve ErrorHandling
             System.out.println("Error "+e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error " + e.getMessage());
         }
         return response.toString();
     }
 
     protected String buildURL() {
         // TODO ErrorHandling
-        String urlbase = String.format(NEWS_API_URL,getEndpoint().getValue(),getQ(),getApiKey());
-        StringBuilder sb = new StringBuilder(urlbase);
+        StringBuilder sb = new StringBuilder();
+        try {
+            String urlbase = String.format(NEWS_API_URL,getEndpoint().getValue(),getQ(),getApiKey());
+            sb.append(urlbase);
 
-        System.out.println(urlbase);
+            System.out.println(urlbase);
+        } catch (Exception e) {
+            System.err.println("Error" + e.getMessage());
+        }
+
 
         if(getFrom() != null){
             sb.append(DELIMITER).append("from=").append(getFrom());
@@ -197,6 +208,8 @@ public class NewsApi {
                 }
             } catch (JsonProcessingException e) {
                 System.out.println("Error: "+e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Error " + e.getMessage());
             }
         }
         //TODO improve Errorhandling
